@@ -1,18 +1,29 @@
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const {
+  SESS_SECRET,
+  SESS_COOKIE_NAME,
+  MONGO_URI_ATLAS,
+  MONGO_URI_LOCAL,
+  NODE_ENV,
+} = process.env;
 
 module.exports = (app) => {
+  app.set("trust proxy", 1);
+
   app.use(
     session({
-      secret: process.env.SESS_SECRET,
-      name: "tvshowsEDCookie",
+      secret: SESS_SECRET,
+      name: SESS_COOKIE_NAME,
       resave: true,
       saveUninitialized: false,
       cookie: {
-        maxAge: 600000
+        sameSite: NODE_ENV === "production" ? "none" : "lax",
+        secure: NODE_ENV === "production",
       },
       store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI_ATLAS || process.env.MONGO_URI_LOCAL,
+        mongoUrl: MONGO_URI_LOCAL || MONGO_URI_ATLAS,
+        ttl: 60 * 60 * 24,
       }),
     })
   );
