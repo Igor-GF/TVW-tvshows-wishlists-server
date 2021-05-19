@@ -4,10 +4,10 @@ const { MONGO_URI_LOCAL, MONGO_URI_ATLAS, NODE_ENV } = process.env;
 const connectDb = (mongoUri) => 
   mongoose
     .connect(mongoUri, {
+      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useCreateIndex: true
+      useFindAndModify: false,
     })
     .then((x) => {
       console.log(

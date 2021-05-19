@@ -8,10 +8,10 @@ const {
   NODE_ENV,
 } = process.env;
 
-module.exports = (app) => {
-  app.set("trust proxy", 1);
+module.exports = (incomingApp) => {
+  incomingApp.set("trust proxy", 1);
 
-  app.use(
+  incomingApp.use(
     session({
       secret: SESS_SECRET,
       name: SESS_COOKIE_NAME,
