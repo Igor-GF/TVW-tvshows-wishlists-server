@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model");
-const WishList = require("../models/WhishList.model");
 
 router.get("/profile", (req, res) => {
   
@@ -12,6 +11,7 @@ router.get("/profile", (req, res) => {
 
   User.findById(req.user._id)
   .populate("wishLists")
+  .populate("watchedShows")
   .then((loggedUser) => {
     res.status(200).json(loggedUser);
   })

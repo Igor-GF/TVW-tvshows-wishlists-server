@@ -40,14 +40,13 @@ router.get("/wishlists", (_, res) => {
   User.findById(id) 
   .then((userLogged) => {
 
-
     res.status(200).json(allLists);
   })
   .catch( err => next(err));
 })
 
 router.put("/wishlists/:listId/edit", (req, res, next) => {
-  const { listName, coverUrl } = req.body;
+  const { listName } = req.body;
   const { listId } = req.params;
 
   if(!mongoose.Types.ObjectId.isValid(listId)) {
@@ -55,7 +54,7 @@ router.put("/wishlists/:listId/edit", (req, res, next) => {
     return;
   }
 
-  WishList.findByIdAndUpdate(listId, { listName, coverUrl }) 
+  WishList.findByIdAndUpdate(listId, { listName }) 
   .then((listUpdated) => {
     res.status(200).json(listUpdated);
   })
